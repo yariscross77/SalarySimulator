@@ -5,121 +5,543 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(
+      home: SimulatorPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class SimulatorPage extends StatefulWidget {
+  const SimulatorPage({Key? key}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SimulatorPage> createState() => _SimulatorPage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _SimulatorPage extends State<SimulatorPage> {
+  String work_time = '0';
+  int work_count = 0;
+  String work_time2 = '0';
+  int work_count2 = 0;
+  int yukyu_count = -1;
+  int fix = 0;
+  int before_time = 0;
+  int after_time = 0;
+  double before_time_fee = 0;
+  double after_time_fee = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  bool isBeforeTime = false;
 
-  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('アルバイト給与シミュレーターアプリ'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        width: double.infinity,
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                hintText: '時給を入力してください。',
+              ),
+              onChanged: (value) {
+                fix = int.parse(value);
+              },
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            SizedBox(
+              width: double.infinity,
+              child: DropdownButton(
+                items: const [
+                  DropdownMenuItem(
+                    child: Text('勤務時間を選択してください。'),
+                    value: '0',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('1時間'),
+                    value: '1',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('1時間30分'),
+                    value: '1.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('2時間'),
+                    value: '2',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('2時間30分'),
+                    value: '2.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3時間'),
+                    value: '3',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3時間30分'),
+                    value: '3.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4時間'),
+                    value: '4',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4時間30分'),
+                    value: '4.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('5時間'),
+                    value: '5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('5時間30分'),
+                    value: '5.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('6時間'),
+                    value: '6',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('6時間30分'),
+                    value: '6.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('7時間'),
+                    value: '7',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('7時間30分'),
+                    value: '7.5',
+                  ),
+                  DropdownMenuItem(
+                    child: Text('8時間'),
+                    value: '8',
+                  ),
+                ],
+                value: work_time,
+                onChanged: (value) {
+                  setState(() {
+                    work_time = value!;
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: DropdownButton(
+                items: const [
+                  DropdownMenuItem(
+                    child: Text('勤務回数を選択してください。'),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('1回'),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('2回'),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3回'),
+                    value: 3,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4回'),
+                    value: 4,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('5回'),
+                    value: 5,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('6回'),
+                    value: 6,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('7回'),
+                    value: 7,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('8回'),
+                    value: 8,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('9回'),
+                    value: 9,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('10回'),
+                    value: 10,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('11回'),
+                    value: 11,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('12回'),
+                    value: 12,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('13回'),
+                    value: 13,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('14回'),
+                    value: 14,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('15回'),
+                    value: 15,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('16回'),
+                    value: 16,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('17回'),
+                    value: 17,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('18回'),
+                    value: 18,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('19回'),
+                    value: 19,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('20回'),
+                    value: 20,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('21回'),
+                    value: 21,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('22回'),
+                    value: 22,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('23回'),
+                    value: 23,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('24回'),
+                    value: 24,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('25回'),
+                    value: 25,
+                  ),
+                ],
+                value: work_count,
+                onChanged: (value) {
+                  setState(() {
+                    work_count = value!;
+                  });
+                },
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                DropdownButton(
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text('勤務時間を選択してください。'),
+                      value: '0',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('1時間'),
+                      value: '1',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('1時間30分'),
+                      value: '1.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('2時間'),
+                      value: '2',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('2時間30分'),
+                      value: '2.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('3時間'),
+                      value: '3',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('3時間30分'),
+                      value: '3.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('4時間'),
+                      value: '4',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('4時間30分'),
+                      value: '4.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('5時間'),
+                      value: '5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('5時間30分'),
+                      value: '5.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('6時間'),
+                      value: '6',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('6時間30分'),
+                      value: '6.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('7時間'),
+                      value: '7',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('7時間30分'),
+                      value: '7.5',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('8時間'),
+                      value: '8',
+                    ),
+                  ],
+                  value: work_time2,
+                  onChanged: (value) {
+                    setState(() {
+                      work_time2 = value!;
+                    });
+                  },
+                ),
+                Switch(
+                  value: isBeforeTime,
+                  onChanged: (bool? value) {
+                    if (value != null) {
+                      setState(() {
+                        isBeforeTime = value;
+                        if (isBeforeTime) {
+                          print('ON');
+                        } else {
+                          print('OFF');
+                        }
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+            /*
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  child: DropdownButton(
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text('勤務時間を選択してください。'),
+                        value: '0',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('1時間'),
+                        value: '1',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('1時間30分'),
+                        value: '1.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('2時間'),
+                        value: '2',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('2時間30分'),
+                        value: '2.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('3時間'),
+                        value: '3',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('3時間30分'),
+                        value: '3.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('4時間'),
+                        value: '4',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('4時間30分'),
+                        value: '4.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('5時間'),
+                        value: '5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('5時間30分'),
+                        value: '5.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('6時間'),
+                        value: '6',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('6時間30分'),
+                        value: '6.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('7時間'),
+                        value: '7',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('7時間30分'),
+                        value: '7.5',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('8時間'),
+                        value: '8',
+                      ),
+                    ],
+                    value: work_time2,
+                    onChanged: (value) {
+                      setState(() {
+                        work_time2 = value!;
+                      });
+                    },
+                  ),
+                ),
+                Switch(
+                    value: isBeforeTime,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          if (isBeforeTime) {
+                            print(isBeforeTime);
+                          } else {
+                            print(isBeforeTime);
+                          }
+                        });
+                      }
+                    }),
+              ],
+            ),*/
+            TextField(
+              decoration: InputDecoration(
+                hintText: '前残業時間を入力してください。単位：分',
+              ),
+              onChanged: (value) {
+                before_time = int.parse(value);
+                double min_fee = fix / 60;
+
+                if (before_time % 15 == 0) {
+                  before_time_fee =
+                      double.parse(min_fee.toStringAsFixed(3)) * before_time;
+                } else {
+                  before_time_fee = double.parse(min_fee.toStringAsFixed(3)) *
+                      (before_time - (before_time % 15));
+                }
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(
+                hintText: '後残業時間を入力してください。単位：分',
+              ),
+              onChanged: (value) {
+                after_time = int.parse(value);
+
+                double min_fee = fix / 60;
+                after_time_fee =
+                    double.parse(min_fee.toStringAsFixed(3)) * after_time;
+              },
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: DropdownButton(
+                items: const [
+                  DropdownMenuItem(
+                    child: Text('有給回数を選択してください。'),
+                    value: -1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('なし'),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('1回'),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('2回'),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3回'),
+                    value: 3,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4回'),
+                    value: 4,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('5回'),
+                    value: 5,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('6回'),
+                    value: 6,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('7回'),
+                    value: 7,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('8回'),
+                    value: 8,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('9回'),
+                    value: 9,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('10回'),
+                    value: 10,
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    yukyu_count = value!;
+                  });
+                },
+                value: yukyu_count,
+              ),
+            ),
+            TextButton(
+              child: Text('計算する'),
+              onPressed: () {
+                if (work_time == 0 || work_count == 0 || yukyu_count == -1) {
+                  return;
+                }
+
+                print(fix * double.parse(work_time) * work_count);
+                print('前' + before_time_fee.ceil().toString());
+                print('後' + after_time_fee.ceil().toString());
+                int o = before_time_fee.ceil() + after_time_fee.ceil();
+                print("残業代" + o.toString());
+                print('有給' +
+                    (fix * double.parse(work_time) * yukyu_count).toString());
+              },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
