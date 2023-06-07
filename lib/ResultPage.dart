@@ -17,7 +17,10 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('結果')),
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('シミュレーション結果'),
+      ),
       body: Container(
         child: Column(
           children: [
@@ -92,11 +95,20 @@ class ResultPage extends StatelessWidget {
                 ],
               ),
             ),
-            ElevatedButton(
-              child: const Text('戻る'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: ElevatedButton(
+                child: const Text('戻る'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
           ],
         ),
