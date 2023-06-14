@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="salary_simulator"
+        android:label="アルバイト給与シミュレーター"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
