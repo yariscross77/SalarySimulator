@@ -83,7 +83,7 @@ class _SimulatorPage extends State<SimulatorPage> {
                           FilteringTextInputFormatter.allow(RegExp('[0-9]'))
                         ],
                         keyboardType: TextInputType.number,
-                        maxLength: 10,
+                        maxLength: 5,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return '時給が入力されていません。';
@@ -1452,7 +1452,7 @@ class _SimulatorPage extends State<SimulatorPage> {
                           FilteringTextInputFormatter.allow(RegExp('[0-9]'))
                         ],
                         keyboardType: TextInputType.number,
-                        maxLength: 10,
+                        maxLength: 5,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return '後残業時間が入力されていません。';
