@@ -4,7 +4,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 Widget _loadingWidget(double size) {
   return Center(
-    child: LoadingAnimationWidget.hexagonDots(color: Colors.blue, size: size),
+    child:
+        LoadingAnimationWidget.discreteCircle(color: Colors.blue, size: size),
   );
 }
 
